@@ -1,17 +1,15 @@
 import express from "express";
 import mongoose from "mongoose";
-
-import { validationResult } from "express-validator";
+import cors from "cors";
 
 import {
   registerValidation,
   loginValidation,
-  ordersInLineCreateValidation,
+  orderInLineCreateValidation,
 } from "./validations.js";
 
-import checkAuth from "./utils/checkAuth.js";
-
-import * as UserController from "./controllers/UserController";
+import { handleValidationErrors, checkAuth } from "./utils/index.js";
+import { UserController, OrderInLineController } from "./controllers/index.js";
 
 mongoose
   .connect(
@@ -23,10 +21,31 @@ mongoose
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
-app.post("/auth/login", loginValidation, UserController.login);
-app.post("/auth/register", registerValidation, UserController.register);
+app.post(
+  "/auth/login",
+  loginValidation,
+  handleValidationErrors,
+  UserController.login
+);
+app.post(
+  "/auth/register",
+  registerValidation,
+  handleValidationErrors,
+  UserController.register
+);
 app.get("/auth/me", checkAuth, UserController.getMe);
+
+app.get("/orders-in-line", OrderInLineController.getAll);
+app.post(
+  "/orders-in-line",
+  checkAuth,
+  orderInLineCreateValidation,
+  handleValidationErrors,
+  OrderInLineController.create
+);
+app.delete("/orders-in-line/:id", checkAuth, OrderInLineController.remove);
 
 app.listen(3001, (err) => {
   if (err) {

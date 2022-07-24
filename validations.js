@@ -15,9 +15,9 @@ export const registerValidation = [
   body("fullName", "Укажите имя").isLength({ min: 3 }),
 ];
 
-export const ordersInLineCreateValidation = [
+export const orderInLineCreateValidation = [
   body("name", "Введите тип фонаря").isLength({ min: 3 }).isString(),
-  body("number", "Введите количество фонарей в заказе").isNumber(),
-  body("priority", "Выберите приоритет").isString(),
+  body("number", "Введите количество фонарей в заказе").isNumeric(),
+  body("priority", "Выберите приоритет").isNumeric(),
   body("text", "Введите описание").optional().isString(),
 ];
