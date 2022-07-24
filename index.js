@@ -9,7 +9,12 @@ import {
 } from "./validations.js";
 
 import { handleValidationErrors, checkAuth } from "./utils/index.js";
-import { UserController, OrderInLineController } from "./controllers/index.js";
+import {
+  UserController,
+  OrderInLineController,
+  OperationsController,
+  LampController,
+} from "./controllers/index.js";
 
 mongoose
   .connect(
@@ -46,6 +51,12 @@ app.post(
   OrderInLineController.create
 );
 app.delete("/orders-in-line/:id", checkAuth, OrderInLineController.remove);
+
+app.get("/operations", OperationsController.getAll);
+app.post("/operations", checkAuth, OperationsController.create);
+
+app.get("/lamps", LampController.getOne);
+app.post("/lamps", checkAuth, LampController.create);
 
 app.listen(3001, (err) => {
   if (err) {
