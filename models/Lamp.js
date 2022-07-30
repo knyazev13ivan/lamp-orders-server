@@ -9,7 +9,6 @@ const LampSchema = new mongoose.Schema(
     locksmith: {
       type: Array,
       default: [],
-      required: true,
     },
     painter: {
       type: Array,

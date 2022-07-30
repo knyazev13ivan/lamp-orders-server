@@ -1,4 +1,5 @@
 import OrderInLineModel from "../models/OrderInLine.js";
+import LampModel from "../models/Lamp.js";
 
 export const getAll = async (req, res) => {
   try {
@@ -50,8 +51,14 @@ export const remove = async (req, res) => {
 
 export const create = async (req, res) => {
   try {
+    const lamp = await LampModel.findOne({name: req.body.name})
+
+    if (!lamp) {
+      throw Error('Указан неверный тип фонаря')
+    }
+
     const doc = new OrderInLineModel({
-      name: req.body.name,
+      name: lamp.name,
       number: req.body.number,
       priority: req.body.priority,
       text: req.body.text,

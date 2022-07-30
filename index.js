@@ -12,6 +12,7 @@ import { handleValidationErrors, checkAuth } from "./utils/index.js";
 import {
   UserController,
   OrderInLineController,
+  OrderInProgressController,
   OperationsController,
   LampController,
 } from "./controllers/index.js";
@@ -46,11 +47,20 @@ app.get("/orders-in-line", OrderInLineController.getAll);
 app.post(
   "/orders-in-line",
   checkAuth,
-  orderInLineCreateValidation,
-  handleValidationErrors,
+  // orderInLineCreateValidation,
+  // handleValidationErrors,
   OrderInLineController.create
 );
 app.delete("/orders-in-line/:id", checkAuth, OrderInLineController.remove);
+
+app.get("/orders-in-progress", OrderInProgressController.getAll);
+app.post(
+  "/orders-in-progress",
+  checkAuth,
+  handleValidationErrors,
+  OrderInProgressController.create
+);
+app.delete("/orders-in-progress/:id", checkAuth, OrderInProgressController.remove);
 
 app.get("/operations", OperationsController.getAll);
 app.post("/operations", checkAuth, OperationsController.create);

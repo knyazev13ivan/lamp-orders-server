@@ -1,9 +1,5 @@
 import LampModel from "../models/Lamp.js";
 
-import OperationsModel from "../models/Operations.js";
-
-const getOperations = async () => await OperationsModel.find();
-
 export const getOne = async (req, res) => {
   try {
     const lampName = req.body.name;
@@ -41,8 +37,7 @@ export const create = async (req, res) => {
   try {
     const doc = new LampModel({
       name: req.body.name,
-      // locksmith: req.body.locksmith,
-      locksmith: await OperationsModel.find({locksmith}, (err, doc) => doc),
+      locksmith: req.body.locksmith,
       painter: req.body.painter,
       millwright: req.body.millwright,
     });
