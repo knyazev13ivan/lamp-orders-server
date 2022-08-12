@@ -31,10 +31,9 @@ export const create = async (req, res) => {
 
     const doc = new OrderInProgressModel({
       order: orderInLine,
-      locksmith: lamp.locksmith.map(e => ({operation: {name: e, isDone: false}})),
-      painter: lamp.painter.map(e => ({operation: {name: e, isDone: false}})),
-      millwright: lamp.millwright.map(e => ({operation: {name: e, isDone: false}})),
-      // lamp: lampCopy.locksmith.map(e => ({operation: {name: e, isDone: false}})),
+      locksmith: lamp.locksmith.map(e => ({name: e, isDone: false})),
+      painter: lamp.painter.map(e => ({name: e, isDone: false})),
+      millwright: lamp.millwright.map(e => ({name: e, isDone: false})),
       isPause: req.body.isPause,
     });
 

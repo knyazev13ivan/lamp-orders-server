@@ -47,8 +47,8 @@ app.get("/orders-in-line", OrderInLineController.getAll);
 app.post(
   "/orders-in-line",
   checkAuth,
-  // orderInLineCreateValidation,
-  // handleValidationErrors,
+  orderInLineCreateValidation,
+  handleValidationErrors,
   OrderInLineController.create
 );
 app.delete("/orders-in-line/:id", checkAuth, OrderInLineController.remove);
@@ -60,12 +60,17 @@ app.post(
   handleValidationErrors,
   OrderInProgressController.create
 );
-app.delete("/orders-in-progress/:id", checkAuth, OrderInProgressController.remove);
+app.delete(
+  "/orders-in-progress/:id",
+  checkAuth,
+  OrderInProgressController.remove
+);
 
 app.get("/operations", OperationsController.getAll);
 app.post("/operations", checkAuth, OperationsController.create);
 
-app.get("/lamps", LampController.getOne);
+app.get("/lamps/:name", LampController.getOne);
+app.get("/lamps", LampController.getAll);
 app.post("/lamps", checkAuth, LampController.create);
 
 app.listen(3001, (err) => {
