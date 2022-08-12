@@ -60,6 +60,12 @@ app.post(
   handleValidationErrors,
   OrderInProgressController.create
 );
+app.put(
+  "/orders-in-progress",
+  checkAuth,
+  // handleValidationErrors,
+  OrderInProgressController.update
+);
 app.delete(
   "/orders-in-progress/:id",
   checkAuth,

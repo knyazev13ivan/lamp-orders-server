@@ -30,11 +30,11 @@ export const create = async (req, res) => {
     }
 
     const doc = new OrderInProgressModel({
-      order: orderInLine,
-      locksmith: lamp.locksmith.map(e => ({name: e, isDone: false})),
-      painter: lamp.painter.map(e => ({name: e, isDone: false})),
-      millwright: lamp.millwright.map(e => ({name: e, isDone: false})),
-      isPause: req.body.isPause,
+      order: {...orderInLine},
+      locksmith: lamp.locksmith.map((e) => ({ name: e, isDone: false })),
+      painter: lamp.painter.map((e) => ({ name: e, isDone: false })),
+      millwright: lamp.millwright.map((e) => ({ name: e, isDone: false })),
+      isPause: false,
     });
 
     const order = await doc.save();
@@ -51,20 +51,30 @@ export const create = async (req, res) => {
 export const update = async (req, res) => {
   try {
     const step = req.body.step;
-    const operation = req.body.operation
+    const operations = req.body.operations;
 
-    OrderInProgressModel.findOneAndUpdate({
-      _id: req.body.id,
-    }, {
-      // $set: { lamp[step][operation].isDone: true }
-    })
+    const doc = await OrderInProgressModel.findOneAndUpdate(
+      {
+        _id: req.body.id,
+      },
+      {
+        $set: {
+          [step]: operations,
+        },
+      },
+      { returnDocument: "after", new: true, upsert: true }
+    );
+
+    const order = await doc.save();
+
+    res.json(order);
   } catch (error) {
     console.log(error);
     res.status(500).json({
       message: "Не удалось обновить статус заказа",
     });
   }
-}
+};
 
 export const getOne = async (req, res) => {
   try {
