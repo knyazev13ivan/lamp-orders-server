@@ -13,6 +13,7 @@ import {
   UserController,
   OrderInLineController,
   OrderInProgressController,
+  OrderInHistoryController,
   OperationsController,
   LampController,
 } from "./controllers/index.js";
@@ -70,6 +71,19 @@ app.delete(
   "/orders-in-progress/:id",
   checkAuth,
   OrderInProgressController.remove
+);
+
+app.get("/orders-in-history", OrderInHistoryController.getAll);
+app.post(
+  "/orders-in-history",
+  checkAuth,
+  handleValidationErrors,
+  OrderInHistoryController.create
+);
+app.delete(
+  "/orders-in-history/:id",
+  checkAuth,
+  OrderInHistoryController.remove
 );
 
 app.get("/operations", OperationsController.getAll);
