@@ -19,9 +19,7 @@ import {
 } from "./controllers/index.js";
 
 mongoose
-  .connect(
-    "mongodb+srv://admin:lampadmin@cluster0.a1mukxo.mongodb.net/lamps?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGOBD_URL)
   .then(() => console.log("Database OK"))
   .catch((err) => console.log("Database ERROR", err));
 
@@ -93,7 +91,7 @@ app.get("/lamps/:name", LampController.getOne);
 app.get("/lamps", LampController.getAll);
 app.post("/lamps", checkAuth, LampController.create);
 
-app.listen(3001, (err) => {
+app.listen(process.env.PORT || 3001, (err) => {
   if (err) {
     return console.log(err);
   }
